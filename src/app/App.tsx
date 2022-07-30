@@ -21,7 +21,6 @@ import {logoutTC} from "../features/Login/auth-reducer";
 type PropsType = {
     demo?: boolean
 }
-
 function App({demo = false}: PropsType) {
     const dispatch = useDispatch()
     const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
@@ -39,11 +38,9 @@ function App({demo = false}: PropsType) {
         </div>
 
     }
-
     const logoutHandler = () => {
         dispatch(logoutTC())
     };
-
     return (
         <div className="App">
             <ErrorSnackbar/>
@@ -57,8 +54,6 @@ function App({demo = false}: PropsType) {
                     </Typography>
 
                     {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button> }
-
-
                 </Toolbar>
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
