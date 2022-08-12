@@ -55,7 +55,6 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
         })
 }
 
-
 type ActionsType =
     | SetAppErrorActionType
     | SetAppStatusActionType
