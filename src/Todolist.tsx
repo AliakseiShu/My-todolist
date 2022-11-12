@@ -8,16 +8,18 @@ export type TaskType = {
 }
 
 type TodolistProps = {
+    todolistId: string
     title: string
     tasks: TaskType[]
     removeTask: (id: string) => void
-    changeFilter: (value: FilterValuesType) => void
+    changeFilter: (value: FilterValuesType, todolistId:string) => void
     addTask: (titleInput: string) => void
     changeTaskStatus: (taskId: string, newIsDoneValue: boolean) => void
     filter: FilterValuesType
 }
 
 const Todolist: FC<TodolistProps> = ({
+                                         todolistId,
                                          title,
                                          tasks,
                                          removeTask,
@@ -48,15 +50,15 @@ const Todolist: FC<TodolistProps> = ({
         }
     }
     const onAllChangeFilter = () => {
-        changeFilter('all')
+        changeFilter('all', todolistId)
     }
 
     const onActiveChangeFilter = () => {
-        changeFilter('active')
+        changeFilter('active', todolistId)
     }
 
     const onCompletedChangeFilter = () => {
-        changeFilter('completed')
+        changeFilter('completed', todolistId)
     }
 
     return (
