@@ -1,12 +1,13 @@
 import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
+import {Button, IconButton, TextField} from "@mui/material";
+import {AddBox} from "@mui/icons-material";
 
 type AddItemFormType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm: FC<AddItemFormType> = ({addItem }) => {
+export const AddItemForm: FC<AddItemFormType> = ({addItem}) => {
     let [title, setTitle] = useState('')
-    console.log(title)
     let [error, setError] = useState<string | null>('')
 
     const addTaskHandler = () => {
@@ -28,15 +29,18 @@ export const AddItemForm: FC<AddItemFormType> = ({addItem }) => {
             addTaskHandler()
         }
     }
-
     return (
         <div>
-            <input value={title}
-                   onChange={onChangeHandler}
-                   onKeyDown={onKeyPressHandler}
-                   className={error ? "error" : ''}/>
-            <button onClick={addTaskHandler}>+</button>
-            {error && <div className="error-message">{error}</div>}
+            <TextField
+                variant="outlined"
+                value={title}
+                onChange={onChangeHandler}
+                onKeyDown={onKeyPressHandler}
+                error={!!error}
+                label="Title"
+                helperText={error}
+            />
+            <IconButton onClick={addTaskHandler} color="primary"><AddBox/></IconButton>
         </div>
     );
 };

@@ -1,11 +1,12 @@
 import React, {ChangeEvent, FC, useState} from 'react';
+import {TextField} from "@mui/material";
 
 type EditableSpanType = {
     onChange: (newValue: string) => void
     value: string
 }
 
-export const EditableSpan: FC<EditableSpanType> = ({value,onChange}) => {
+export const EditableSpan: FC<EditableSpanType> = ({value, onChange}) => {
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState(value);
 
@@ -24,10 +25,16 @@ export const EditableSpan: FC<EditableSpanType> = ({value,onChange}) => {
     }
 
     return editMode
-        ? <input value={title}
-                 onChange={onChangeTitle}
-                 onBlur={activateViewEditMode}
-                 autoFocus/>
+        ?
+        <TextField variant="outlined"
+                   value={title}
+                   onChange={onChangeTitle}
+                   onBlur={activateViewEditMode}
+                   autoFocus/>
+        // <input value={title}
+        //          onChange={onChangeTitle}
+        //          onBlur={activateViewEditMode}
+        //          autoFocus/>
         : <span onDoubleClick={activateEditMode}>{value}</span>
 };
 
