@@ -1,17 +1,18 @@
 import React, {ChangeEvent, FC, useState} from 'react';
 
 type EditableSpanType = {
-    onChange: (newTitle: string) => void
+    onChange: (newValue: string) => void
     value: string
 }
 
-export const EditableSpan: FC<EditableSpanType> = ({value}) => {
+export const EditableSpan: FC<EditableSpanType> = ({value,onChange}) => {
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState(value);
 
 
     const activateViewEditMode = () => {
         setEditMode(false)
+        onChange(title)
     }
     const activateEditMode = () => {
         setEditMode(true)

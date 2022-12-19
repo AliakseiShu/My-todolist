@@ -1,24 +1,25 @@
 import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
 
 type AddItemFormType = {
-    addItem: (titleInput: string) => void
+    addItem: (title: string) => void
 }
 
 export const AddItemForm: FC<AddItemFormType> = ({addItem }) => {
-    let [titleInput, setTitleInput] = useState('')
+    let [title, setTitle] = useState('')
+    console.log(title)
     let [error, setError] = useState<string | null>('')
 
     const addTaskHandler = () => {
-        if (titleInput.trim() !== '') {
-            addItem(titleInput.trim())
-            setTitleInput('')
+        if (title.trim() !== '') {
+            addItem(title.trim())
+            setTitle('')
         } else {
             setError('Title is required')
         }
     }
 
-    const onchangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setTitleInput(event.currentTarget.value)
+    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setTitle(event.currentTarget.value)
     }
 
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -30,8 +31,8 @@ export const AddItemForm: FC<AddItemFormType> = ({addItem }) => {
 
     return (
         <div>
-            <input value={titleInput}
-                   onChange={onchangeHandler}
+            <input value={title}
+                   onChange={onChangeHandler}
                    onKeyDown={onKeyPressHandler}
                    className={error ? "error" : ''}/>
             <button onClick={addTaskHandler}>+</button>

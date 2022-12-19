@@ -15,12 +15,12 @@ type TodolistProps = {
     tasks: TaskType[]
     removeTask: (id: string, todolistId: string) => void
     changeFilter: (value: FilterValuesType, todolistId: string) => void
-    addTask: (titleInput: string, todolistId: string) => void
+    addTask: (title: string, todolistId: string) => void
     changeTaskStatus: (taskId: string, newIsDoneValue: boolean, todolistId: string) => void
     filter: FilterValuesType
     removeTodolist: (id: string) => void
     onChangeTaskTitle: (id: string, newTitle: string, todolistId: string) => void
-    onChangeTodoTitle: (newTitle: string, todolistId: string) => void
+    onChangeTodoTitle: (id: string, newTitle: string) => void
 }
 
 const Todolist: FC<TodolistProps> = ({
@@ -36,27 +36,20 @@ const Todolist: FC<TodolistProps> = ({
                                          onChangeTaskTitle,
                                          onChangeTodoTitle
                                      }) => {
-    const addTaskHandler = (titleInput: string) => {
-        addTask(titleInput, todolistId)
+    const addTaskHandler = (title: string) => {
+        addTask(title, todolistId)
     }
     const removeTodolistHandler = () => {
         removeTodolist(todolistId)
     }
 
     const onChangeTodoTitleHandler = (newTitle: string) => {
-        onChangeTodoTitle(newTitle, todolistId)
+        onChangeTodoTitle(todolistId,newTitle, )
     }
 
-    const onAllChangeFilter = () => {
-        changeFilter('all', todolistId)
-    }
-    const onActiveChangeFilter = () => {
-        changeFilter('active', todolistId)
-    }
-    const onCompletedChangeFilter = () => {
-        changeFilter('completed', todolistId)
-    }
-
+    const onAllChangeFilter = () => changeFilter('all', todolistId)
+    const onActiveChangeFilter = () => changeFilter('active', todolistId)
+    const onCompletedChangeFilter = () => changeFilter('completed', todolistId)
     return (
         <div>
             <h3>
@@ -80,7 +73,7 @@ const Todolist: FC<TodolistProps> = ({
                     return (
                         <li key={task.id} className={task.isDone ? "is-done" : ''}>
                             <input type="checkbox" checked={task.isDone} onChange={onChangeHandler}/>
-                            <EditableSpan value={title} onChange={onChangeTitleHandler}/>
+                            <EditableSpan value={task.title} onChange={onChangeTitleHandler}/>
                             <button onClick={onRemoveTaskHandler}>✖</button>
                         </li>
                     )
