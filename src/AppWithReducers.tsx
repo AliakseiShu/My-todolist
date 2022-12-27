@@ -1,9 +1,17 @@
-import React, {useState} from 'react';
+import React, {Reducer, useReducer, useState} from 'react';
 import './App.css';
 import Todolist, {TaskType} from "./Todolist";
 import {v1} from 'uuid';
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
+import {
+    addTodolistAC,
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
+    removeTodolistAC,
+    todolistsReducer
+} from "./state/todolists-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -22,12 +30,12 @@ function AppWithReducers() {
     let todolistID1 = v1()
     let todolistID2 = v1()
 
-    let [todolists, setTodolists] = useState<TodolistType[]>([
+    let [todolists, dispatchToTodolists] = useReducer(todolistsReducer, [
         {id: todolistID1, title: "Books", filter: 'all'},
         {id: todolistID2, title: "Tasks", filter: 'all'},
     ])
 
-    let [tasks, setTasks] = useState<TasksStateType>({
+    let [tasks, dispatchToTasks] = useReducer(tasksReducer, {
         [todolistID1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
@@ -40,67 +48,39 @@ function AppWithReducers() {
     })
 
     const removeTodolist = (id: string) => {
-        setTodolists(todolists.filter((todolist) => todolist.id !== id))
-        delete tasks[id]
-        setTasks({...tasks})
-    }
-
-    const removeTask = (id: string, todolistId: string) => {
-        let todolistTasks = tasks[todolistId]
-        tasks[todolistId] = todolistTasks.filter((task) => (task.id !== id))
-        setTasks({...tasks})
+        dispatchToTodolists(removeTodolistAC(id))
+        dispatchToTasks(removeTodolistAC(id))
     }
 
     const changeFilter = (value: FilterValuesType, todolistId: string) => {
-        let todolist = todolists.find((todoloist) => todoloist.id === todolistId)
-        if (todolist) {
-            todolist.filter = value
-            setTodolists([...todolists])
-        }
-    }
-
-    const addTask = (title: string, todolistId: string) => {
-        let task = {id: v1(), title: title, isDone: false}
-
-        let todolistTasks = tasks[todolistId]
-        tasks[todolistId] = [task, ...todolistTasks]
-
-        setTasks({...tasks})
+        dispatchToTodolists(changeTodolistFilterAC(todolistId, value))
     }
 
     const addTodolist = (title: string) => {
-        let newTodolistId = v1()
-        let newTodolist: TodolistType = {id: newTodolistId, title: title, filter: 'all'}
-        setTodolists([newTodolist, ...todolists])
-        setTasks({
-            ...tasks,
-            [newTodolistId]: []
-        })
+        const action = addTodolistAC(title)
+        dispatchToTodolists(action)
+        dispatchToTasks(action)
+    }
+
+    const onChangeTodoTitle = (todolistId: string, title: string) => {
+        dispatchToTodolists(changeTodolistTitleAC(todolistId, title))
+    }
+
+    const removeTask = (id: string, todolistId: string) => {
+        dispatchToTasks(removeTaskAC(id, todolistId))
+    }
+
+    const addTask = (title: string, todolistId: string) => {
+        dispatchToTasks(addTaskAC(title, todolistId))
     }
 
     const changeTaskStatus = (taskId: string, newIsDoneValue: boolean, todolistId: string) => {
-        let todolistTasks = tasks[todolistId]
-        let task = todolistTasks.find((task) => task.id === taskId)
-        if (task) {
-            task.isDone = newIsDoneValue
-            setTasks({...tasks})
-        }
+        dispatchToTasks(changeTaskStatusAC(taskId, newIsDoneValue, todolistId))
     }
     const changeTaskTitle = (taskId: string, newTitle: string, todolistId: string) => {
-        let todolistTasks = tasks[todolistId]
-        let task = todolistTasks.find((task) => task.id === taskId)
-        if (task) {
-            task.title = newTitle
-            setTasks({...tasks})
-        }
+        dispatchToTasks(changeTaskTitleAC(taskId, newTitle, todolistId))
     }
-    const onChangeTodoTitle = (todolistId: string, title: string) => {
-        const todolist = todolists.find((todolist) => todolist.id === todolistId)
-        if (todolist) {
-            todolist.title = title
-            setTodolists([...todolists])
-        }
-    }
+
 
     return (
         <div className="App">
@@ -119,7 +99,7 @@ function AppWithReducers() {
                 </Toolbar>
             </AppBar>
             <Container fixed>
-                <Grid container style={{padding:'20px'}}>
+                <Grid container style={{padding: '20px'}}>
                     <AddItemForm addItem={addTodolist}/>
                 </Grid>
                 <Grid container spacing={3}>
