@@ -6,7 +6,7 @@ type AddItemFormType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm: FC<AddItemFormType> = ({addItem}) => {
+export const AddItemForm: FC<AddItemFormType> = React.memo( ({addItem}) => {
     let [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>('')
 
@@ -43,6 +43,6 @@ export const AddItemForm: FC<AddItemFormType> = ({addItem}) => {
             <IconButton onClick={addTaskHandler} color="primary"><AddBox/></IconButton>
         </div>
     );
-};
+});
 
 

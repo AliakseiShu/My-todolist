@@ -6,7 +6,7 @@ type EditableSpanType = {
     value: string
 }
 
-export const EditableSpan: FC<EditableSpanType> = ({value, onChange}) => {
+export const EditableSpan: FC<EditableSpanType> = React.memo(({value, onChange}) => {
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState(value);
 
@@ -36,6 +36,6 @@ export const EditableSpan: FC<EditableSpanType> = ({value, onChange}) => {
         //          onBlur={activateViewEditMode}
         //          autoFocus/>
         : <span onDoubleClick={activateEditMode}>{value}</span>
-};
+});
 
 
