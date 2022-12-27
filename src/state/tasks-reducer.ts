@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import {TasksStateType} from "../App";
+=======
+import {FilterValuesType, TasksStateType, TodolistType} from "../App";
+>>>>>>> 15c6babe4730fc39f28e55bd90d134c6151912a5
 import {v1} from "uuid";
 import {AddTodolistActionType, RemoveTodolistActionType} from "./todolists-reducer";
 
