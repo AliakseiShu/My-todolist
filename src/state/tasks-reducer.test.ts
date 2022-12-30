@@ -3,10 +3,12 @@ import {
     changeTaskStatusAC,
     changeTaskTitleAC,
     removeTaskAC,
-    tasksReducer
+    tasksReducer,
+    setTaskseAC
 } from './tasks-reducer'
-import { TasksStateType } from '../App'
-import {addTodolistAC, removeTodolistAC} from "./todolists-reducer";
+import {TasksStateType, TodolistType} from '../App'
+import {addTodolistAC, removeTodolistAC, setTodolistAC, todolistsReducer} from "./todolists-reducer";
+import {v1} from "uuid";
 
 test('correct task should be deleted from correct array', () => {
     const startState: TasksStateType = {
@@ -160,3 +162,21 @@ test('property with todolistId should be deleted', () => {
     expect(keys.length).toBe(1)
     expect(endState['todolistId2']).not.toBeDefined()
 })
+
+test('empty arrays should be added when we set todolists', () => {
+
+    const startState: any = [
+        {id: "1", title: 'What to learn', filter: 'all'},
+        {id: "2", title: 'What to buy', filter: 'all'}
+    ]
+
+    const endState = tasksReducer({}, setTodolistAC(startState))
+
+
+    const keys = Object.keys(endState)
+
+    expect(keys.length).toBe(2)
+    expect(endState['1']).not.toBe([])
+    expect(endState['2']).not.toBe([])
+})
+
