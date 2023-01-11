@@ -1,5 +1,7 @@
-import axios from "axios/index";
+import axios from "axios";
 import * as stream from "stream";
+import { TodolistDomainType } from "../state/todolists-reducer";
+import { TaskType } from "../Todolist";
 
 const settings = {
     withCredentials: true,
@@ -27,19 +29,19 @@ type ResponseType<D = {}> = {
     data: D
 }
 
-type TaskType = {
-    description: string
-    title: string
-    completed: boolean
-    status: number
-    priority: number
-    startDate: string
-    deadline: string
-    id: string
-    todoListId: string
-    order: number
-    addedDate: stream
-}
+// export type TaskType = {
+//     description: string
+//     title: string
+//     completed: boolean
+//     status: number
+//     priority: number
+//     startDate: string
+//     deadline: string
+//     id: string
+//     todoListId: string
+//     order: number
+//     addedDate: stream
+// }
 
 type GetTasksResponse = {
     error: string | null
@@ -53,11 +55,18 @@ type TasksResponse<D={}> = {
     data: D
 }
 
-
+type UpdateTaskModelType = {
+    title: string
+    description: string
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
+}
 
 export const todolistsApi = {
     getTodolists() {
-        return instance.get<TodolistType[]>('todo-lists')
+        return instance.get<TodolistDomainType[]>('todo-lists')
     },
     createTodolists(title: string) {
         return instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title: title})
@@ -77,7 +86,7 @@ export const todolistsApi = {
     deleteTasks(todolistId: string, id: string) {
         return instance.delete<TasksResponse>(`/todo-lists/${todolistId}/tasks/${id}`)
     },
-    updateTasks(todolistId: string, id: string, title: string) {
-        return instance.put<TasksResponse<{item:TaskType}>>(`/todo-lists/${todolistId}/tasks/${id}`, {title:title})
+    updateTasks(todolistId: string, id: string, model: UpdateTaskModelType) {
+        return instance.put<TasksResponse<{item:TaskType}>>(`/todo-lists/${todolistId}/tasks/${id}`, model)
     },
 }

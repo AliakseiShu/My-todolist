@@ -1,10 +1,12 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, useEffect} from 'react';
 import {FilterValuesType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from '@mui/icons-material'
 import {Button, IconButton} from '@mui/material'
 import {Task} from "./Task";
+import { useAppDispatch } from './hooks/hooks';
+import { fetchTasksTC } from './state/tasks-reducer';
 
 export type TaskType = {
     id: string
@@ -39,6 +41,12 @@ const Todolist: FC<TodolistProps> = React.memo(({
                                                     onChangeTaskTitle,
                                                     onChangeTodoTitle
                                                 }) => {
+
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(fetchTasksTC(todolistId))
+    }, [])
 
     const addTaskHandler = useCallback((title: string) => {
         addTask(title, todolistId)
