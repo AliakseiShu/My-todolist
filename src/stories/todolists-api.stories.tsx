@@ -102,16 +102,20 @@ export const DeleteTasks = () => {
 }
 export const UpdateTasks = () => {
     const [state, setState] = useState<any>(null)
+<<<<<<< HEAD
     const [title, setTitle] = useState<string>('tit')
     const [description, setDescription] = useState<string>('dee')
     const [status, setStatus] = useState<number>(0)
     const [priority, setPriority] = useState<number>(0)
     const [startDate, setstartDate] = useState<string>('')
     const [deadline, setDeadline] = useState<string>('')
+=======
+>>>>>>> 1d7a647f9a32ae4f2e964a24433a3dbc973c925c
     useEffect(() => {
         const todolistId = 'affa551e-1cab-46ef-9336-90b488953b16'
         const id = "323cfcd2-54bf-4beb-bb4d-6116f4485fc2"
         const title = 'NNNNN'
+<<<<<<< HEAD
         todolistsApi.updateTasks(todolistId, id, {
             deadline: '',
             description: description,
@@ -120,6 +124,9 @@ export const UpdateTasks = () => {
             title: title,
             status: status,
         })
+=======
+        todolistsApi.updateTasks(todolistId, id, title)
+>>>>>>> 1d7a647f9a32ae4f2e964a24433a3dbc973c925c
             .then((res) => {
                 setState(res.data)
             })

@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import axios from "axios";
 import * as stream from "stream";
 import { TodolistDomainType } from "../state/todolists-reducer";
 import { TaskType } from "../Todolist";
+=======
+import axios from "axios/index";
+import * as stream from "stream";
+>>>>>>> 1d7a647f9a32ae4f2e964a24433a3dbc973c925c
 
 const settings = {
     withCredentials: true,
@@ -29,6 +34,7 @@ type ResponseType<D = {}> = {
     data: D
 }
 
+<<<<<<< HEAD
 // export type TaskType = {
 //     description: string
 //     title: string
@@ -42,6 +48,21 @@ type ResponseType<D = {}> = {
 //     order: number
 //     addedDate: stream
 // }
+=======
+type TaskType = {
+    description: string
+    title: string
+    completed: boolean
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
+    id: string
+    todoListId: string
+    order: number
+    addedDate: stream
+}
+>>>>>>> 1d7a647f9a32ae4f2e964a24433a3dbc973c925c
 
 type GetTasksResponse = {
     error: string | null
@@ -55,6 +76,7 @@ type TasksResponse<D={}> = {
     data: D
 }
 
+<<<<<<< HEAD
 type UpdateTaskModelType = {
     title: string
     description: string
@@ -67,6 +89,13 @@ type UpdateTaskModelType = {
 export const todolistsApi = {
     getTodolists() {
         return instance.get<TodolistDomainType[]>('todo-lists')
+=======
+
+
+export const todolistsApi = {
+    getTodolists() {
+        return instance.get<TodolistType[]>('todo-lists')
+>>>>>>> 1d7a647f9a32ae4f2e964a24433a3dbc973c925c
     },
     createTodolists(title: string) {
         return instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title: title})
@@ -86,7 +115,12 @@ export const todolistsApi = {
     deleteTasks(todolistId: string, id: string) {
         return instance.delete<TasksResponse>(`/todo-lists/${todolistId}/tasks/${id}`)
     },
+<<<<<<< HEAD
     updateTasks(todolistId: string, id: string, model: UpdateTaskModelType) {
         return instance.put<TasksResponse<{item:TaskType}>>(`/todo-lists/${todolistId}/tasks/${id}`, model)
+=======
+    updateTasks(todolistId: string, id: string, title: string) {
+        return instance.put<TasksResponse<{item:TaskType}>>(`/todo-lists/${todolistId}/tasks/${id}`, {title:title})
+>>>>>>> 1d7a647f9a32ae4f2e964a24433a3dbc973c925c
     },
 }
